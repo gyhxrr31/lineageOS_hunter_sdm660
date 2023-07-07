@@ -1520,7 +1520,7 @@ static int play_rate_dbgfs_write(void *data, u64 val)
 }
 
 DEFINE_DEBUGFS_ATTRIBUTE(play_rate_debugfs_ops,  play_rate_dbgfs_read,
-		play_rate_dbgfs_write, "%llu\n");
+		dbgfs_write_play_rate);
 
 static int vmax_dbgfs_read(void *data, u64 *val)
 {
@@ -1544,7 +1544,7 @@ static int vmax_dbgfs_write(void *data, u64 val)
 }
 
 DEFINE_DEBUGFS_ATTRIBUTE(vmax_debugfs_ops, vmax_dbgfs_read,
-		vmax_dbgfs_write, "%llu\n");
+		vmax_dbgfs_write);
 
 static int wf_repeat_n_dbgfs_read(void *data, u64 *val)
 {
@@ -1573,7 +1573,7 @@ static int wf_repeat_n_dbgfs_write(void *data, u64 val)
 }
 
 DEFINE_DEBUGFS_ATTRIBUTE(wf_repeat_n_debugfs_ops,  wf_repeat_n_dbgfs_read,
-		wf_repeat_n_dbgfs_write, "%llu\n");
+		wf_repeat_n_dbgfs_write);
 
 static int wf_s_repeat_n_dbgfs_read(void *data, u64 *val)
 {
@@ -1602,7 +1602,7 @@ static int wf_s_repeat_n_dbgfs_write(void *data, u64 val)
 }
 
 DEFINE_DEBUGFS_ATTRIBUTE(wf_s_repeat_n_debugfs_ops,  wf_s_repeat_n_dbgfs_read,
-		wf_s_repeat_n_dbgfs_write, "%llu\n");
+		wf_s_repeat_n_dbgfs_write);
 
 static int auto_res_dbgfs_read(void *data, u64 *val)
 {
@@ -1623,7 +1623,7 @@ static int auto_res_dbgfs_write(void *data, u64 val)
 }
 
 DEFINE_DEBUGFS_ATTRIBUTE(auto_res_debugfs_ops,  auto_res_dbgfs_read,
-		auto_res_dbgfs_write, "%llu\n");
+		auto_res_dbgfs_write);
 
 #define WF_SRC_BYTES	12
 static ssize_t wf_src_dbgfs_read(struct file *filep,
@@ -1823,21 +1823,21 @@ static int create_effect_debug_files(struct qti_hap_effect *effect,
 	struct dentry *file;
 
 	file = debugfs_create_file("play_rate_us", 0644, dir,
-			effect, &play_rate_debugfs_ops);
+			effect, &play_rate_dbgfs_read);
 	if (!file) {
 		pr_err("create play-rate debugfs node failed\n");
 		return -ENOMEM;
 	}
 
 	file = debugfs_create_file("vmax_mv", 0644, dir,
-			effect, &vmax_debugfs_ops);
+			effect, &vmax_dbgfs_read);
 	if (!file) {
 		pr_err("create vmax debugfs node failed\n");
 		return -ENOMEM;
 	}
 
 	file = debugfs_create_file("lra_auto_res_en", 0644, dir,
-			effect, &auto_res_debugfs_ops);
+			effect, &auto_res_dbgfs_read);
 	if (!file) {
 		pr_err("create lra-auto-res-en debugfs node failed\n");
 		return -ENOMEM;
@@ -1868,14 +1868,14 @@ static int create_effect_debug_files(struct qti_hap_effect *effect,
 	}
 
 	file = debugfs_create_file("wf_repeat_n", 0644, dir,
-			effect, &wf_repeat_n_debugfs_ops);
+			effect, &wf_repeat_n_dbgfs_read);
 	if (!file) {
 		pr_err("create wf_repeat debugfs node failed\n");
 		return -ENOMEM;
 	}
 
 	file = debugfs_create_file("wf_s_repeat_n", 0644, dir,
-			effect, &wf_s_repeat_n_debugfs_ops);
+			effect, &wf_repeat_n_dbgfs_read);
 	if (!file) {
 		pr_err("create wf_s_repeat debugfs node failed\n");
 		return -ENOMEM;
